@@ -1,4 +1,4 @@
-# VM
+# Virtual Machine
 
 ## Assembler
 
