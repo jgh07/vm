@@ -12,7 +12,7 @@ add rh, 1
 
 str ra, 1
 
-str ra, 1
+str ra, 1 
 str rb, "---\n", 1
 int
 
