@@ -1,5 +1,18 @@
 # Virtual Machine
 
+This is a small virtual machine for a custom assembly language. The repository contains an assembler, disassembler and the virtual machine itself. This is an example program that displays the text "Hello World!":
+````assembly
+; Set register a to 1
+str ra, 1
+
+; Set register b to the string "Hello World!\n"
+str rb, "Hello World!\n", 1
+
+; Call interrupt procedure
+int
+````
+Interacting with the virtual machine is done through the command-line application ``vm``. If this code is saved to the file ``hello.asm``, it can be compiled by the assembler using the command ``vm compile hello.asm``, yielding an executable called ``hello.bin``. That executable can then be run using the command ``vm run hello.bin``.
+
 ## Assembler
 
 ### Instructions
@@ -7,20 +20,6 @@ Every instruction is 10 bytes.
 - 1 byte for the label
 - 1 byte for the opcode
 - 2 bytes each for each of the 4 operands
-
-### Syntax
-````assembly
-; This is a comment.
-
-include "file2.lsm"
-
-__main:
-    str ra, 1
-    str rb, 2
-    ceq ra, rb
-    call someFuncFromFile2
-    jmp __main
-````
 
 ### Limitations
 - A file cannot contain more than 255 lines of code.
