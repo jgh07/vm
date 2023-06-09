@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VM": {
+      "commandName": "Project",
+      "commandLineArgs": "run simplified.bin"
+    }
+  }
+}
