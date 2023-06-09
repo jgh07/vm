@@ -20,18 +20,19 @@ str rb, 1
 str rc, 1
 
 loop:
-	int
+
+int
 	
-	str rf, rb
-	str rb, "\n", 1
-	int
+str rf, rb
+str rb, "\n", 1
+int
 	
-	swp rf, rb
+swp rf, rb
 	
-	add rb, rc
+add rb, rc
 	
-	str rd, rb
+str rd, rb
 	
-	clt rb, rh
-	swp rb, rd
-	beq rd, rc, loop
+clt rb, rh
+swp rb, rd
+beq rd, rc, loop
