@@ -33,7 +33,7 @@ Every instruction is 10 bytes.
 |Type|Description
 |---|---|
 |r|Register|
-|m|A memory address. Constants are automatically assigned their place in memory.|
+|m|A memory address or constant value.|
 |l|Label|
 |t|Type; Currently unused.|
 
