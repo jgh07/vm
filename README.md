@@ -53,7 +53,7 @@ Every instruction is 10 bytes.
 |00001010|Beq|Jump if equal.|r, m|r, m|l||
 |00001011|Not|Negates the value of operand 1.|r||||
 |00001100|And|And gate. The register specified as operand 1 is set to the result.|r|r, m|||
-|00001101|And|Or gate. The register specified as operand 1 is set to the result.|r|r, m|||
+|00001101|Or|Or gate. The register specified as operand 1 is set to the result.|r|r, m|||
 |00001110|Ceq|Checks if the two operands are equal. The register specified as operand 1 is set to the result.|r|r, m|||
 |00001111|Cgt|Checks if operand 1 is greater than operand 2. The register specified as operand 1 is set to the result.|r|r, m|||
 |00010000|Clt|Checks if operand 1 is smaller than operand 2. The register specified as operand 1 is set to the result.|r|r, m|||
@@ -62,7 +62,7 @@ Every instruction is 10 bytes.
 |00010101|Rem|Calculates the remainder of a division of two numbers. The register specified as operand 1 is set to the result.|r|r, m|||
 |00010111|Cnv|Currently no effect.|r|t|||
 |00011000|Swp|Swaps two registers.|r|r|||
-|00011001|Call|Calls a *function*. A specialized version of ``Jmp``.|l||||
-|00011010|Rtc|Returns from a function.|||||
-|00011011|Dfc|Declares a function.|||||
-|00011100|Dfc|Interrupt.|||||
+|00011001|Call|Calls a *function*. A specialized version of ``Jmp``. Currently no effect.|l||||
+|00011010|Rtc|Returns from a function. Currently no effect.|||||
+|00011011|Dfc|Declares a function. Currently no effect.|||||
+|00011100|Int|Calls an interrupt routine.|||||
