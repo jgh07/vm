@@ -178,25 +178,43 @@ internal class VirtualMachine
 
                 foreach (var kvp in _instructions)
                 {
+                    if (kvp.Value[0] == 255)
+                        break;
+
                     if (kvp.Key >= o1)
                     {
                         byte[] val = kvp.Value;
 
-                        if (val.Length < 10)
-                        {
-                            var l = val.ToList();
-                            l.Add(0);
+                        List<byte> inst = new() { kvp.Key };
+                        inst.AddRange(val);
 
-                            val = l.ToArray();
-                        }
-
-                        ExecuteInstruction(val);
+                        ExecuteInstruction(inst.ToArray());
                     }
                 }
 
                 break;
 
             case Beq:
+
+                if ((int)ResolveOperand(t1, o1) != (int)ResolveOperand(t2, o2))
+                    break;
+
+                foreach (var kvp in _instructions)
+                {
+                    if (kvp.Value[0] == 255)
+                        break;
+
+                    if (kvp.Key >= o3)
+                    {
+                        byte[] val = kvp.Value;
+
+                        List<byte> inst = new() { kvp.Key };
+                        inst.AddRange(val);
+
+                        ExecuteInstruction(inst.ToArray());
+                    }
+                }
+
                 break;
 
             case Not:
@@ -223,21 +241,21 @@ internal class VirtualMachine
             case Ceq:
 
                 VerifyRegister(Ceq, 1, t1);
-                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) == (int)ResolveOperand(t2, o2));
+                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) == (int)ResolveOperand(t2, o2) ? 1 : 0);
 
                 break;
 
             case Cgt:
 
                 VerifyRegister(Cgt, 1, t1);
-                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) > (int)ResolveOperand(t2, o2));
+                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) > (int)ResolveOperand(t2, o2) ? 1 : 0);
 
                 break;
 
             case Clt:
 
                 VerifyRegister(Clt, 1, t1);
-                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) < (int)ResolveOperand(t2, o2));
+                SetRegister(GetRegister(o1), (int)ResolveOperand(t1, o1) < (int)ResolveOperand(t2, o2) ? 1 : 0);
 
                 break;
 
@@ -251,7 +269,7 @@ internal class VirtualMachine
             case Str:
 
                 VerifyRegister(Str, 1, t1);
-                SetRegister(GetRegister(o1), ResolveOperand(t2, o2));
+                SetRegister(GetRegister(o1), ResolveOperand(t2, o2, o3));
 
                 break;
 
@@ -275,7 +293,7 @@ internal class VirtualMachine
 
                 object temp = ResolveOperand(t1, o1);
 
-                SetRegister(GetRegister(o1), GetRegister(o2));
+                SetRegister(GetRegister(o1), GetRegisterData(GetRegister(o2)));
                 SetRegister(GetRegister(o2), temp);
 
                 break;
@@ -297,7 +315,31 @@ internal class VirtualMachine
                 switch ((int)RA)
                 {
                     case 1:
-                        Console.WriteLine(RB);
+                        Console.Write(RB);
+                        break;
+
+                    case 2:
+                        RB = Console.ReadLine();
+                        break;
+
+                    case 3:
+
+                        if (int.TryParse(RB.ToString(), out int i))
+                            RB = i;
+                        else
+                            RB = 0;
+
+                        break;
+
+                    case 4:
+
+                        if (RB is not string)
+                            RB = RB.ToString();
+
+                        break;
+
+                    default:
+                        Console.WriteLine($"Error: Invalid interrupt {(int)RA}.");
                         break;
                 }
 
@@ -336,6 +378,21 @@ internal class VirtualMachine
         }
     }
 
+    private object GetRegisterData(string register)
+    {
+        return register switch
+        {
+            "RA" => RA,
+            "RB" => RB,
+            "RC" => RC,
+            "RD" => RD,
+            "RE" => RE,
+            "RF" => RF,
+            "RG" => RG,
+            _ => RH,
+        };
+    }
+
     private string GetRegister(byte data)
     {
         switch (data)
@@ -362,7 +419,7 @@ internal class VirtualMachine
         }
     }
 
-    private object ResolveOperand(byte type, byte data)
+    private object ResolveOperand(byte type, byte data, byte treatAsString = 0)
     {
         switch (type)
         {
@@ -397,7 +454,7 @@ internal class VirtualMachine
             case 2: // Memory
                 byte[] dt = memory[data];
 
-                if (dt.Length > 4)
+                if (dt.Length > 4 || treatAsString > 0)
                     return Encoding.UTF8.GetString(dt);
 
                 byte[] paddedArray = new byte[4];

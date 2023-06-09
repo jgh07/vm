@@ -6,7 +6,7 @@ NewLine: ('\r\n' | '\r' | '\n' | '\u0085' | '\u2028' | '\u2029');
 Ws: [ \t]+ -> skip;
 Comment: ';' .*? NewLine+ -> skip;
 
-OpCode: 'NOP' | 'RET' | 'HLT' | 'ADD' | 'SUB' | 'MUL' | 'DIV' | 'SHL' | 'SHR' | 'JMP' | 'BEQ' | 'NOT' | 'AND' | 'OR' | 'CEQ' | 'XOR' | 'STR' | 'REM' | 'CNV' | 'SWP' | 'CALL' | 'RTC' | 'DFC' | 'INT';
+OpCode: 'NOP' | 'RET' | 'HLT' | 'ADD' | 'SUB' | 'MUL' | 'DIV' | 'SHL' | 'SHR' | 'JMP' | 'BEQ' | 'NOT' | 'AND' | 'OR' | 'CEQ' | 'CGT' | 'CLT' | 'XOR' | 'STR' | 'REM' | 'CNV' | 'SWP' | 'CALL' | 'RTC' | 'DFC' | 'INT';
 
 Identifier: ([a-z] | [A-Z] | '_') ([a-z] | [A-Z] | '_' | [0-9])*;
 
