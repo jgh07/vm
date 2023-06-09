@@ -59,7 +59,7 @@ __main:
 |00001111|Cgt|Checks if operand 1 is greater than operand 2. The register specified as operand 1 is set to the result.|r|r, m|||
 |00010000|Clt|Checks if operand 1 is smaller than operand 2. The register specified as operand 1 is set to the result.|r|r, m|||
 |00010001|Xor|Exclusive or gate. The register specified as operand 1 is set to the result.|r|r, m|||
-|00010010|Str|Sets the register specified as operand 1 to the value of operand 2.|r|r, m|||
+|00010010|Str|Sets the register specified as operand 1 to the value of operand 2.|r|r, m|m?||
 |00010101|Rem|Calculates the remainder of a division of two numbers. The register specified as operand 1 is set to the result.|r|r, m|||
 |00010111|Cnv|Currently no effect.|r|t|||
 |00011000|Swp|Swaps two registers.|r|r|||
