@@ -11,16 +11,10 @@ namespace VM.Assembler;
 
 public static class Assembler
 {
-    public static string Disassemble(string binary)
+    public static string Disassemble(byte[] bytes)
     {
         StringBuilder sb = new();
 
-        binary = binary
-            .Replace(" ", "")
-            .Replace("\r", "")
-            .Replace("\n", "");
-
-        byte[] bytes = binary.Chunk(8).Select(c => Convert.ToByte(new string(c), 2)).ToArray();
         byte[][] instructions = bytes.Chunk(10).ToArray();
 
         List<byte> memoryBytes;
@@ -44,7 +38,7 @@ public static class Assembler
             if (instructions[i][0] == 255) // Memory section
                 break;
 
-            sb.Append($"_{instructions[i][0]}: "); // Label
+            sb.Append($"Line{instructions[i][0]}: "); // Label
             sb.Append($"{ParseTreeVisitor.GetOpCodeMnemonic(instructions[i][1])} "); // Opcode
 
             if (instructions[i].Length < 3)
@@ -53,28 +47,12 @@ public static class Assembler
             byte[] operands = instructions[i][2..];
             byte[][] operandChunks = operands.Chunk(2).ToArray();
 
-            List<byte[]> operandChunksList = operandChunks.ToList();
-
-            for (int j = 0; j < operandChunksList.Count; j++)
-            {
-                try
-                {
-                    for (int k = 0; k < operandChunksList[j].Length; k++)
-                    {
-                        if (operandChunksList[j][k] == 3)
-                            operandChunksList.RemoveAt(j);
-                    }
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    break;
-                }
-            }
+            List<byte[]> remainingOperands = operandChunks.Where(o => o[0] != 3).ToList();
             
             foreach (byte[] operand in operandChunks)
             {
-                if (operandChunksList.Count > 0)
-                    operandChunksList.Remove(operandChunksList.Last());
+                if (remainingOperands.Count > 0)
+                    remainingOperands.Remove(remainingOperands.First());
 
                 switch (operand[0])
                 {
@@ -91,13 +69,13 @@ public static class Assembler
                             6 => "rg",
                             7 => "rh",
                             _ => $"; Invalid register.{Environment.NewLine}"
-                        }}{(operandChunksList.Count > 1 ? "," : "")} ");
+                        }}{(remainingOperands.Count > 0 ? "," : "")} ");
 
                         break;
 
                     // Label
                     case 1:
-                        sb.Append($"_{instructions[i][0]}{(operandChunksList.Count > 1 ? "," : "")} ");
+                        sb.Append($"Line{instructions[i][0]}{(remainingOperands.Count > 0 ? "," : "")} ");
                         break;
 
                     // Memory
@@ -106,14 +84,20 @@ public static class Assembler
 
                         if (data.Length > 4)
                         {
-                            sb.Append($"\"{Encoding.UTF8.GetString(data)}\"{(operandChunksList.Count > 1 ? "," : "")} ");
+                            string str = Encoding.UTF8.GetString(data)
+                                .Replace("\b", "\\b")
+                                .Replace("\"", "\\\"")
+                                .Replace("\r", "\\r")
+                                .Replace("\n", "\\n");
+
+                            sb.Append($"\"{str}\"{(remainingOperands.Count > 0 ? "," : "")} ");
                             break;
                         }
 
                         byte[] paddedArray = new byte[4];
 
                         Buffer.BlockCopy(data, 0, paddedArray, 0, data.Length);
-                        sb.Append($"{BitConverter.ToInt32(paddedArray)}{(operandChunksList.Count > 1 ? "," : "")} ");
+                        sb.Append($"{BitConverter.ToInt32(paddedArray)}{(remainingOperands.Count > 0 ? "," : "")} ");
                         break;
 
                     // Null

@@ -95,7 +95,7 @@ static int Disassemble(string[] args)
         return -1;
     }
 
-    File.WriteAllText(outFile, Assembler.Disassemble(File.ReadAllText(inFile)));
+    File.WriteAllText(outFile, Assembler.Disassemble(File.ReadAllBytes(inFile)));
 
     return 0;
 }
