@@ -137,7 +137,20 @@ public static class Assembler
         asmParser parser = new(tokens);
 
         IParseTree compilationUnit = parser.compilation_unit();
-        ParseTreeVisitor visitor = new();
+
+        var stdout = Console.Out;
+        Console.SetOut(TextWriter.Null);
+
+        ParseTreeVisitor labelResolver = new();
+        labelResolver.Visit(compilationUnit);
+
+        Console.SetOut(stdout);
+
+        ParseTreeVisitor visitor = new()
+        {
+            Labels = labelResolver.Labels
+        };
+
         visitor.Visit(compilationUnit);
 
         StringBuilder sb = new StringBuilder(visitor.Output)

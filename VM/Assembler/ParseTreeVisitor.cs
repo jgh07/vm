@@ -14,7 +14,7 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
 
     public readonly Dictionary<byte, object> Memory = new();
 
-    private readonly Dictionary<string, int> Labels = new();
+    public Dictionary<string, int> Labels { get; set; } = new();
 
     private readonly Dictionary<string, byte> Registers = new()
     {
@@ -326,7 +326,8 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
 
         if (context.label() != null)
         {
-            Labels.Add(context.label().Identifier().GetText(), context.Start.Line);
+            if (!Labels.ContainsKey(context.label().Identifier().GetText()))
+                Labels.Add(context.label().Identifier().GetText(), context.Start.Line);
 
             if (context.Start.Line > 254)
                 Console.WriteLine($"Error on line {context.Start.Line}: Source file cannot contain more than 254 lines of code. Consider splitting your code into multiple files.");   

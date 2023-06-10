@@ -25,7 +25,6 @@ Every instruction is 10 bytes.
 - A file cannot contain more than 255 lines of code.
 - Only 255 distinct constants can be stored per file.
 - A constant cannot be larger than 255 bytes.
-- Labels can only be accessed after they have been defined. Before that, you can only jump to line numbers.
 
 ### Instruction Set
 
