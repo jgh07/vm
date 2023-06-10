@@ -8,13 +8,14 @@ Comment: ';' .*? NewLine+ -> skip;
 
 OpCode: 'NOP' | 'RET' | 'HLT' | 'ADD' | 'SUB' | 'MUL' | 'DIV' | 'SHL' | 'SHR' | 'JMP' | 'BEQ' | 'NOT' | 'AND' | 'OR' | 'CEQ' | 'CGT' | 'CLT' | 'XOR' | 'STR' | 'REM' | 'CNV' | 'SWP' | 'CALL' | 'RTC' | 'DFC' | 'INT';
 
+Include: 'include';
+Define: 'define';
+
 Identifier: ([a-z] | [A-Z] | '_') ([a-z] | [A-Z] | '_' | [0-9])*;
 
 DecimalDigit: [0-9];
 BinaryDigit: [0-1];
 HexDigit: ([0-9] | [a-f] | [A-F]);
-
-Include: 'INCLUDE';
 
 String: '"' (~[\\"\r\n\u0085\u2028\u2029] | EscapeSequence)* '"';
 
@@ -22,6 +23,14 @@ EscapeSequence: '\\\\' | '\\r' | '\\n' | '\\"' | '\\b';
 
 global_include
     : Include String
+    ;
+
+constant_definition
+    : Define constant operand
+    ;
+
+constant
+    : '$' Identifier
     ;
 
 integer
@@ -37,7 +46,7 @@ floating_point_number
     ;
 
 operand
-    : Identifier | integer | floating_point_number | String | line_number
+    : Identifier | integer | floating_point_number | String | line_number | constant
     ;
 
 label
@@ -57,5 +66,5 @@ include
     ;
 
 compilation_unit
-    : (include | NewLine)* (instruction | NewLine)* EOF
+    : (include | constant_definition | NewLine)* (instruction | NewLine)* EOF
     ;

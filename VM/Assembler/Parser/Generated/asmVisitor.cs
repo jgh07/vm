@@ -39,6 +39,18 @@ public interface IasmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitGlobal_include([NotNull] asmParser.Global_includeContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="asmParser.constant_definition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConstant_definition([NotNull] asmParser.Constant_definitionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="asmParser.constant"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConstant([NotNull] asmParser.ConstantContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>decimal_literal</c>
 	/// labeled alternative in <see cref="asmParser.integer"/>.
 	/// </summary>

@@ -69,6 +69,8 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
         { "INT", 0b00011100 },
     };
 
+    private readonly Dictionary<string, asmParser.OperandContext> NamedConstants = new();
+
     internal static string GetOpCodeMnemonic(byte opCode)
     {
         foreach (var key in OpCodes.Keys)
@@ -103,6 +105,9 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
         foreach (var tree in context.include())
             Visit(tree);
 
+        foreach (var tree in context.constant_definition())
+            Visit(tree);
+
         foreach (var tree in context.instruction())
             Visit(tree);
 
@@ -117,7 +122,10 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
 
     public override object VisitOperand([NotNull] asmParser.OperandContext context)
     {
-        if (context.integer() != null)
+        if (context.constant() != null)
+            Visit(context.constant());
+
+        else if (context.integer() != null)
             Visit(context.integer());
 
         else if (context.floating_point_number() != null)
@@ -372,6 +380,22 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
 
         _sb.Append(Environment.NewLine);
 
+        return null;
+    }
+
+    public override object VisitConstant([NotNull] asmParser.ConstantContext context)
+    {
+        if (NamedConstants.TryGetValue(context.Identifier().GetText(), out asmParser.OperandContext value))
+            Visit(value);
+        else
+            Console.WriteLine($"Error on line {context.Start.Line}: Could not resolve constant '{context.Identifier().GetText()}'.");
+
+        return null;
+    }
+
+    public override object VisitConstant_definition([NotNull] asmParser.Constant_definitionContext context)
+    {
+        NamedConstants.Add(context.constant().Identifier().GetText(), context.operand());
         return null;
     }
 }

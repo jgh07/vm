@@ -16,33 +16,33 @@ public class asmParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, NewLine=7, Ws=8, Comment=9, 
-		OpCode=10, Identifier=11, DecimalDigit=12, BinaryDigit=13, HexDigit=14, 
-		Include=15, String=16, EscapeSequence=17;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, NewLine=8, Ws=9, 
+		Comment=10, OpCode=11, Include=12, Define=13, Identifier=14, DecimalDigit=15, 
+		BinaryDigit=16, HexDigit=17, String=18, EscapeSequence=19;
 	public static final int
-		RULE_global_include = 0, RULE_integer = 1, RULE_floating_point_number = 2, 
-		RULE_operand = 3, RULE_label = 4, RULE_line_number = 5, RULE_instruction = 6, 
-		RULE_include = 7, RULE_compilation_unit = 8;
+		RULE_global_include = 0, RULE_constant_definition = 1, RULE_constant = 2, 
+		RULE_integer = 3, RULE_floating_point_number = 4, RULE_operand = 5, RULE_label = 6, 
+		RULE_line_number = 7, RULE_instruction = 8, RULE_include = 9, RULE_compilation_unit = 10;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"global_include", "integer", "floating_point_number", "operand", "label", 
-			"line_number", "instruction", "include", "compilation_unit"
+			"global_include", "constant_definition", "constant", "integer", "floating_point_number", 
+			"operand", "label", "line_number", "instruction", "include", "compilation_unit"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'0b'", "'0x'", "'.'", "':'", "'%'", "','", null, null, null, null, 
-			null, null, null, null, "'INCLUDE'"
+			null, "'$'", "'0b'", "'0x'", "'.'", "':'", "'%'", "','", null, null, 
+			null, null, "'include'", "'define'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, "NewLine", "Ws", "Comment", 
-			"OpCode", "Identifier", "DecimalDigit", "BinaryDigit", "HexDigit", "Include", 
-			"String", "EscapeSequence"
+			null, null, null, null, null, null, null, null, "NewLine", "Ws", "Comment", 
+			"OpCode", "Include", "Define", "Identifier", "DecimalDigit", "BinaryDigit", 
+			"HexDigit", "String", "EscapeSequence"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -111,10 +111,80 @@ public class asmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18);
+			setState(22);
 			match(Include);
-			setState(19);
+			setState(23);
 			match(String);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Constant_definitionContext extends ParserRuleContext {
+		public TerminalNode Define() { return getToken(asmParser.Define, 0); }
+		public ConstantContext constant() {
+			return getRuleContext(ConstantContext.class,0);
+		}
+		public OperandContext operand() {
+			return getRuleContext(OperandContext.class,0);
+		}
+		public Constant_definitionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_constant_definition; }
+	}
+
+	public final Constant_definitionContext constant_definition() throws RecognitionException {
+		Constant_definitionContext _localctx = new Constant_definitionContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_constant_definition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(25);
+			match(Define);
+			setState(26);
+			constant();
+			setState(27);
+			operand();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ConstantContext extends ParserRuleContext {
+		public TerminalNode Identifier() { return getToken(asmParser.Identifier, 0); }
+		public ConstantContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_constant; }
+	}
+
+	public final ConstantContext constant() throws RecognitionException {
+		ConstantContext _localctx = new ConstantContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_constant);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(29);
+			match(T__0);
+			setState(30);
+			match(Identifier);
 			}
 		}
 		catch (RecognitionException re) {
@@ -163,71 +233,71 @@ public class asmParser extends Parser {
 
 	public final IntegerContext integer() throws RecognitionException {
 		IntegerContext _localctx = new IntegerContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_integer);
+		enterRule(_localctx, 6, RULE_integer);
 		int _la;
 		try {
-			setState(38);
+			setState(49);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case DecimalDigit:
 				_localctx = new Decimal_literalContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(22); 
+				setState(33); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(21);
+					setState(32);
 					match(DecimalDigit);
 					}
 					}
-					setState(24); 
+					setState(35); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==DecimalDigit );
 				}
 				break;
-			case T__0:
+			case T__1:
 				_localctx = new Binary_literalContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(26);
-				match(T__0);
-				setState(28); 
+				setState(37);
+				match(T__1);
+				setState(39); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(27);
+					setState(38);
 					match(BinaryDigit);
 					}
 					}
-					setState(30); 
+					setState(41); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==BinaryDigit );
 				}
 				break;
-			case T__1:
+			case T__2:
 				_localctx = new Hex_literalContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(32);
-				match(T__1);
-				setState(34); 
+				setState(43);
+				match(T__2);
+				setState(45); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(33);
+					setState(44);
 					match(HexDigit);
 					}
 					}
-					setState(36); 
+					setState(47); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==HexDigit );
@@ -283,120 +353,120 @@ public class asmParser extends Parser {
 
 	public final Floating_point_numberContext floating_point_number() throws RecognitionException {
 		Floating_point_numberContext _localctx = new Floating_point_numberContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_floating_point_number);
+		enterRule(_localctx, 8, RULE_floating_point_number);
 		int _la;
 		try {
-			setState(78);
+			setState(89);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__2:
+			case T__3:
 			case DecimalDigit:
 				_localctx = new Decimal_floatContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(43);
+				setState(54);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==DecimalDigit) {
 					{
 					{
-					setState(40);
+					setState(51);
 					match(DecimalDigit);
 					}
 					}
-					setState(45);
+					setState(56);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(46);
-				match(T__2);
-				setState(48); 
+				setState(57);
+				match(T__3);
+				setState(59); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(47);
+					setState(58);
 					match(DecimalDigit);
 					}
 					}
-					setState(50); 
+					setState(61); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==DecimalDigit );
 				}
 				break;
-			case T__0:
+			case T__1:
 				_localctx = new Binary_floatContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(52);
-				match(T__0);
-				setState(56);
+				setState(63);
+				match(T__1);
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==BinaryDigit) {
 					{
 					{
-					setState(53);
+					setState(64);
 					match(BinaryDigit);
 					}
 					}
-					setState(58);
+					setState(69);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(59);
-				match(T__2);
-				setState(61); 
+				setState(70);
+				match(T__3);
+				setState(72); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(60);
+					setState(71);
 					match(BinaryDigit);
 					}
 					}
-					setState(63); 
+					setState(74); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==BinaryDigit );
 				}
 				break;
-			case T__1:
+			case T__2:
 				_localctx = new Hex_floatContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(65);
-				match(T__1);
-				setState(69);
+				setState(76);
+				match(T__2);
+				setState(80);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==HexDigit) {
 					{
 					{
-					setState(66);
+					setState(77);
 					match(HexDigit);
 					}
 					}
-					setState(71);
+					setState(82);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(72);
-				match(T__2);
-				setState(74); 
+				setState(83);
+				match(T__3);
+				setState(85); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(73);
+					setState(84);
 					match(HexDigit);
 					}
 					}
-					setState(76); 
+					setState(87); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( _la==HexDigit );
@@ -429,6 +499,9 @@ public class asmParser extends Parser {
 		public Line_numberContext line_number() {
 			return getRuleContext(Line_numberContext.class,0);
 		}
+		public ConstantContext constant() {
+			return getRuleContext(ConstantContext.class,0);
+		}
 		public OperandContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -437,44 +510,51 @@ public class asmParser extends Parser {
 
 	public final OperandContext operand() throws RecognitionException {
 		OperandContext _localctx = new OperandContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_operand);
+		enterRule(_localctx, 10, RULE_operand);
 		try {
-			setState(85);
+			setState(97);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(80);
+				setState(91);
 				match(Identifier);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(81);
+				setState(92);
 				integer();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(82);
+				setState(93);
 				floating_point_number();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(83);
+				setState(94);
 				match(String);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(84);
+				setState(95);
 				line_number();
+				}
+				break;
+			case 6:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(96);
+				constant();
 				}
 				break;
 			}
@@ -500,14 +580,14 @@ public class asmParser extends Parser {
 
 	public final LabelContext label() throws RecognitionException {
 		LabelContext _localctx = new LabelContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_label);
+		enterRule(_localctx, 12, RULE_label);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(99);
 			match(Identifier);
-			setState(88);
-			match(T__3);
+			setState(100);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -534,24 +614,24 @@ public class asmParser extends Parser {
 
 	public final Line_numberContext line_number() throws RecognitionException {
 		Line_numberContext _localctx = new Line_numberContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_line_number);
+		enterRule(_localctx, 14, RULE_line_number);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90);
-			match(T__4);
-			setState(92); 
+			setState(102);
+			match(T__5);
+			setState(104); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(91);
+				setState(103);
 				match(DecimalDigit);
 				}
 				}
-				setState(94); 
+				setState(106); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==DecimalDigit );
@@ -591,64 +671,64 @@ public class asmParser extends Parser {
 
 	public final InstructionContext instruction() throws RecognitionException {
 		InstructionContext _localctx = new InstructionContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_instruction);
+		enterRule(_localctx, 16, RULE_instruction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(115);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(96);
+				setState(108);
 				label();
-				setState(100);
+				setState(112);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==NewLine) {
 					{
 					{
-					setState(97);
+					setState(109);
 					match(NewLine);
 					}
 					}
-					setState(102);
+					setState(114);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(105);
+			setState(117);
 			match(OpCode);
-			setState(114);
+			setState(126);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__4) | (1L << Identifier) | (1L << DecimalDigit) | (1L << String))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__5) | (1L << Identifier) | (1L << DecimalDigit) | (1L << String))) != 0)) {
 				{
-				setState(106);
+				setState(118);
 				operand();
-				setState(111);
+				setState(123);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while (_la==T__5) {
+				while (_la==T__6) {
 					{
 					{
-					setState(107);
-					match(T__5);
-					setState(108);
+					setState(119);
+					match(T__6);
+					setState(120);
 					operand();
 					}
 					}
-					setState(113);
+					setState(125);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(116);
+			setState(128);
 			match(NewLine);
 			}
 		}
@@ -678,16 +758,16 @@ public class asmParser extends Parser {
 
 	public final IncludeContext include() throws RecognitionException {
 		IncludeContext _localctx = new IncludeContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_include);
+		enterRule(_localctx, 18, RULE_include);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(130);
 			match(Include);
-			setState(119);
+			setState(131);
 			match(String);
-			setState(121); 
+			setState(133); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -695,7 +775,7 @@ public class asmParser extends Parser {
 				case 1:
 					{
 					{
-					setState(120);
+					setState(132);
 					match(NewLine);
 					}
 					}
@@ -703,7 +783,7 @@ public class asmParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(123); 
+				setState(135); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -728,6 +808,12 @@ public class asmParser extends Parser {
 		public IncludeContext include(int i) {
 			return getRuleContext(IncludeContext.class,i);
 		}
+		public List<Constant_definitionContext> constant_definition() {
+			return getRuleContexts(Constant_definitionContext.class);
+		}
+		public Constant_definitionContext constant_definition(int i) {
+			return getRuleContext(Constant_definitionContext.class,i);
+		}
 		public List<TerminalNode> NewLine() { return getTokens(asmParser.NewLine); }
 		public TerminalNode NewLine(int i) {
 			return getToken(asmParser.NewLine, i);
@@ -746,30 +832,36 @@ public class asmParser extends Parser {
 
 	public final Compilation_unitContext compilation_unit() throws RecognitionException {
 		Compilation_unitContext _localctx = new Compilation_unitContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_compilation_unit);
+		enterRule(_localctx, 20, RULE_compilation_unit);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(129);
+			setState(142);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
-					setState(127);
+					setState(140);
 					_errHandler.sync(this);
 					switch (_input.LA(1)) {
 					case Include:
 						{
-						setState(125);
+						setState(137);
 						include();
+						}
+						break;
+					case Define:
+						{
+						setState(138);
+						constant_definition();
 						}
 						break;
 					case NewLine:
 						{
-						setState(126);
+						setState(139);
 						match(NewLine);
 						}
 						break;
@@ -778,28 +870,28 @@ public class asmParser extends Parser {
 					}
 					} 
 				}
-				setState(131);
+				setState(144);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			}
-			setState(136);
+			setState(149);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << NewLine) | (1L << OpCode) | (1L << Identifier))) != 0)) {
 				{
-				setState(134);
+				setState(147);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case OpCode:
 				case Identifier:
 					{
-					setState(132);
+					setState(145);
 					instruction();
 					}
 					break;
 				case NewLine:
 					{
-					setState(133);
+					setState(146);
 					match(NewLine);
 					}
 					break;
@@ -807,11 +899,11 @@ public class asmParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(138);
+				setState(151);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(139);
+			setState(152);
 			match(EOF);
 			}
 		}
@@ -827,46 +919,51 @@ public class asmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23\u0090\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3"+
-		"\2\3\2\3\3\6\3\31\n\3\r\3\16\3\32\3\3\3\3\6\3\37\n\3\r\3\16\3 \3\3\3\3"+
-		"\6\3%\n\3\r\3\16\3&\5\3)\n\3\3\4\7\4,\n\4\f\4\16\4/\13\4\3\4\3\4\6\4\63"+
-		"\n\4\r\4\16\4\64\3\4\3\4\7\49\n\4\f\4\16\4<\13\4\3\4\3\4\6\4@\n\4\r\4"+
-		"\16\4A\3\4\3\4\7\4F\n\4\f\4\16\4I\13\4\3\4\3\4\6\4M\n\4\r\4\16\4N\5\4"+
-		"Q\n\4\3\5\3\5\3\5\3\5\3\5\5\5X\n\5\3\6\3\6\3\6\3\7\3\7\6\7_\n\7\r\7\16"+
-		"\7`\3\b\3\b\7\be\n\b\f\b\16\bh\13\b\5\bj\n\b\3\b\3\b\3\b\3\b\7\bp\n\b"+
-		"\f\b\16\bs\13\b\5\bu\n\b\3\b\3\b\3\t\3\t\3\t\6\t|\n\t\r\t\16\t}\3\n\3"+
-		"\n\7\n\u0082\n\n\f\n\16\n\u0085\13\n\3\n\3\n\7\n\u0089\n\n\f\n\16\n\u008c"+
-		"\13\n\3\n\3\n\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2\2\2\u00a1\2\24\3\2\2\2"+
-		"\4(\3\2\2\2\6P\3\2\2\2\bW\3\2\2\2\nY\3\2\2\2\f\\\3\2\2\2\16i\3\2\2\2\20"+
-		"x\3\2\2\2\22\u0083\3\2\2\2\24\25\7\21\2\2\25\26\7\22\2\2\26\3\3\2\2\2"+
-		"\27\31\7\16\2\2\30\27\3\2\2\2\31\32\3\2\2\2\32\30\3\2\2\2\32\33\3\2\2"+
-		"\2\33)\3\2\2\2\34\36\7\3\2\2\35\37\7\17\2\2\36\35\3\2\2\2\37 \3\2\2\2"+
-		" \36\3\2\2\2 !\3\2\2\2!)\3\2\2\2\"$\7\4\2\2#%\7\20\2\2$#\3\2\2\2%&\3\2"+
-		"\2\2&$\3\2\2\2&\'\3\2\2\2\')\3\2\2\2(\30\3\2\2\2(\34\3\2\2\2(\"\3\2\2"+
-		"\2)\5\3\2\2\2*,\7\16\2\2+*\3\2\2\2,/\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\60\3"+
-		"\2\2\2/-\3\2\2\2\60\62\7\5\2\2\61\63\7\16\2\2\62\61\3\2\2\2\63\64\3\2"+
-		"\2\2\64\62\3\2\2\2\64\65\3\2\2\2\65Q\3\2\2\2\66:\7\3\2\2\679\7\17\2\2"+
-		"8\67\3\2\2\29<\3\2\2\2:8\3\2\2\2:;\3\2\2\2;=\3\2\2\2<:\3\2\2\2=?\7\5\2"+
-		"\2>@\7\17\2\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB\3\2\2\2BQ\3\2\2\2CG\7\4"+
-		"\2\2DF\7\20\2\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2\2\2HJ\3\2\2\2IG\3"+
-		"\2\2\2JL\7\5\2\2KM\7\20\2\2LK\3\2\2\2MN\3\2\2\2NL\3\2\2\2NO\3\2\2\2OQ"+
-		"\3\2\2\2P-\3\2\2\2P\66\3\2\2\2PC\3\2\2\2Q\7\3\2\2\2RX\7\r\2\2SX\5\4\3"+
-		"\2TX\5\6\4\2UX\7\22\2\2VX\5\f\7\2WR\3\2\2\2WS\3\2\2\2WT\3\2\2\2WU\3\2"+
-		"\2\2WV\3\2\2\2X\t\3\2\2\2YZ\7\r\2\2Z[\7\6\2\2[\13\3\2\2\2\\^\7\7\2\2]"+
-		"_\7\16\2\2^]\3\2\2\2_`\3\2\2\2`^\3\2\2\2`a\3\2\2\2a\r\3\2\2\2bf\5\n\6"+
-		"\2ce\7\t\2\2dc\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gj\3\2\2\2hf\3\2\2"+
-		"\2ib\3\2\2\2ij\3\2\2\2jk\3\2\2\2kt\7\f\2\2lq\5\b\5\2mn\7\b\2\2np\5\b\5"+
-		"\2om\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2ru\3\2\2\2sq\3\2\2\2tl\3\2\2"+
-		"\2tu\3\2\2\2uv\3\2\2\2vw\7\t\2\2w\17\3\2\2\2xy\7\21\2\2y{\7\22\2\2z|\7"+
-		"\t\2\2{z\3\2\2\2|}\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\21\3\2\2\2\177\u0082\5"+
-		"\20\t\2\u0080\u0082\7\t\2\2\u0081\177\3\2\2\2\u0081\u0080\3\2\2\2\u0082"+
-		"\u0085\3\2\2\2\u0083\u0081\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u008a\3\2"+
-		"\2\2\u0085\u0083\3\2\2\2\u0086\u0089\5\16\b\2\u0087\u0089\7\t\2\2\u0088"+
-		"\u0086\3\2\2\2\u0088\u0087\3\2\2\2\u0089\u008c\3\2\2\2\u008a\u0088\3\2"+
-		"\2\2\u008a\u008b\3\2\2\2\u008b\u008d\3\2\2\2\u008c\u008a\3\2\2\2\u008d"+
-		"\u008e\7\2\2\3\u008e\23\3\2\2\2\30\32 &(-\64:AGNPW`fiqt}\u0081\u0083\u0088"+
-		"\u008a";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\25\u009d\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\5\6\5$\n\5\r\5"+
+		"\16\5%\3\5\3\5\6\5*\n\5\r\5\16\5+\3\5\3\5\6\5\60\n\5\r\5\16\5\61\5\5\64"+
+		"\n\5\3\6\7\6\67\n\6\f\6\16\6:\13\6\3\6\3\6\6\6>\n\6\r\6\16\6?\3\6\3\6"+
+		"\7\6D\n\6\f\6\16\6G\13\6\3\6\3\6\6\6K\n\6\r\6\16\6L\3\6\3\6\7\6Q\n\6\f"+
+		"\6\16\6T\13\6\3\6\3\6\6\6X\n\6\r\6\16\6Y\5\6\\\n\6\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\5\7d\n\7\3\b\3\b\3\b\3\t\3\t\6\tk\n\t\r\t\16\tl\3\n\3\n\7\nq\n\n"+
+		"\f\n\16\nt\13\n\5\nv\n\n\3\n\3\n\3\n\3\n\7\n|\n\n\f\n\16\n\177\13\n\5"+
+		"\n\u0081\n\n\3\n\3\n\3\13\3\13\3\13\6\13\u0088\n\13\r\13\16\13\u0089\3"+
+		"\f\3\f\3\f\7\f\u008f\n\f\f\f\16\f\u0092\13\f\3\f\3\f\7\f\u0096\n\f\f\f"+
+		"\16\f\u0099\13\f\3\f\3\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\2\2\u00ae"+
+		"\2\30\3\2\2\2\4\33\3\2\2\2\6\37\3\2\2\2\b\63\3\2\2\2\n[\3\2\2\2\fc\3\2"+
+		"\2\2\16e\3\2\2\2\20h\3\2\2\2\22u\3\2\2\2\24\u0084\3\2\2\2\26\u0090\3\2"+
+		"\2\2\30\31\7\16\2\2\31\32\7\24\2\2\32\3\3\2\2\2\33\34\7\17\2\2\34\35\5"+
+		"\6\4\2\35\36\5\f\7\2\36\5\3\2\2\2\37 \7\3\2\2 !\7\20\2\2!\7\3\2\2\2\""+
+		"$\7\21\2\2#\"\3\2\2\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\64\3\2\2\2\')\7\4"+
+		"\2\2(*\7\22\2\2)(\3\2\2\2*+\3\2\2\2+)\3\2\2\2+,\3\2\2\2,\64\3\2\2\2-/"+
+		"\7\5\2\2.\60\7\23\2\2/.\3\2\2\2\60\61\3\2\2\2\61/\3\2\2\2\61\62\3\2\2"+
+		"\2\62\64\3\2\2\2\63#\3\2\2\2\63\'\3\2\2\2\63-\3\2\2\2\64\t\3\2\2\2\65"+
+		"\67\7\21\2\2\66\65\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2"+
+		":8\3\2\2\2;=\7\6\2\2<>\7\21\2\2=<\3\2\2\2>?\3\2\2\2?=\3\2\2\2?@\3\2\2"+
+		"\2@\\\3\2\2\2AE\7\4\2\2BD\7\22\2\2CB\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2"+
+		"\2\2FH\3\2\2\2GE\3\2\2\2HJ\7\6\2\2IK\7\22\2\2JI\3\2\2\2KL\3\2\2\2LJ\3"+
+		"\2\2\2LM\3\2\2\2M\\\3\2\2\2NR\7\5\2\2OQ\7\23\2\2PO\3\2\2\2QT\3\2\2\2R"+
+		"P\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2UW\7\6\2\2VX\7\23\2\2WV\3\2\2\2"+
+		"XY\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z\\\3\2\2\2[8\3\2\2\2[A\3\2\2\2[N\3\2\2"+
+		"\2\\\13\3\2\2\2]d\7\20\2\2^d\5\b\5\2_d\5\n\6\2`d\7\24\2\2ad\5\20\t\2b"+
+		"d\5\6\4\2c]\3\2\2\2c^\3\2\2\2c_\3\2\2\2c`\3\2\2\2ca\3\2\2\2cb\3\2\2\2"+
+		"d\r\3\2\2\2ef\7\20\2\2fg\7\7\2\2g\17\3\2\2\2hj\7\b\2\2ik\7\21\2\2ji\3"+
+		"\2\2\2kl\3\2\2\2lj\3\2\2\2lm\3\2\2\2m\21\3\2\2\2nr\5\16\b\2oq\7\n\2\2"+
+		"po\3\2\2\2qt\3\2\2\2rp\3\2\2\2rs\3\2\2\2sv\3\2\2\2tr\3\2\2\2un\3\2\2\2"+
+		"uv\3\2\2\2vw\3\2\2\2w\u0080\7\r\2\2x}\5\f\7\2yz\7\t\2\2z|\5\f\7\2{y\3"+
+		"\2\2\2|\177\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\u0081\3\2\2\2\177}\3\2\2\2\u0080"+
+		"x\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0083\7\n\2\2"+
+		"\u0083\23\3\2\2\2\u0084\u0085\7\16\2\2\u0085\u0087\7\24\2\2\u0086\u0088"+
+		"\7\n\2\2\u0087\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u0087\3\2\2\2\u0089"+
+		"\u008a\3\2\2\2\u008a\25\3\2\2\2\u008b\u008f\5\24\13\2\u008c\u008f\5\4"+
+		"\3\2\u008d\u008f\7\n\2\2\u008e\u008b\3\2\2\2\u008e\u008c\3\2\2\2\u008e"+
+		"\u008d\3\2\2\2\u008f\u0092\3\2\2\2\u0090\u008e\3\2\2\2\u0090\u0091\3\2"+
+		"\2\2\u0091\u0097\3\2\2\2\u0092\u0090\3\2\2\2\u0093\u0096\5\22\n\2\u0094"+
+		"\u0096\7\n\2\2\u0095\u0093\3\2\2\2\u0095\u0094\3\2\2\2\u0096\u0099\3\2"+
+		"\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2\2\2\u0098\u009a\3\2\2\2\u0099"+
+		"\u0097\3\2\2\2\u009a\u009b\7\2\2\3\u009b\27\3\2\2\2\30%+\61\638?ELRY["+
+		"clru}\u0080\u0089\u008e\u0090\u0095\u0097";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

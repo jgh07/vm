@@ -49,6 +49,30 @@ public partial class asmBaseListener : IasmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitGlobal_include([NotNull] asmParser.Global_includeContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="asmParser.constant_definition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterConstant_definition([NotNull] asmParser.Constant_definitionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="asmParser.constant_definition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitConstant_definition([NotNull] asmParser.Constant_definitionContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="asmParser.constant"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterConstant([NotNull] asmParser.ConstantContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="asmParser.constant"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitConstant([NotNull] asmParser.ConstantContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>decimal_literal</c>
 	/// labeled alternative in <see cref="asmParser.integer"/>.
 	/// <para>The default implementation does nothing.</para>

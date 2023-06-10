@@ -42,6 +42,26 @@ public interface IasmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitGlobal_include([NotNull] asmParser.Global_includeContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="asmParser.constant_definition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConstant_definition([NotNull] asmParser.Constant_definitionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="asmParser.constant_definition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConstant_definition([NotNull] asmParser.Constant_definitionContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="asmParser.constant"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConstant([NotNull] asmParser.ConstantContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="asmParser.constant"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConstant([NotNull] asmParser.ConstantContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>decimal_literal</c>
 	/// labeled alternative in <see cref="asmParser.integer"/>.
 	/// </summary>
