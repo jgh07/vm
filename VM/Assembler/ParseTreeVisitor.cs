@@ -336,11 +336,11 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
         if (context.label() != null)
         {
             if (!Labels.ContainsKey(context.label().Identifier().GetText()))
-                Labels.Add(context.label().Identifier().GetText(), context.Start.Line);
-
-            if (context.Start.Line > 254)
-                Console.WriteLine($"Error on line {context.Start.Line}: Source file cannot contain more than 254 lines of code. Consider splitting your code into multiple files.");   
+                Labels.Add(context.label().Identifier().GetText(), context.Start.Line);  
         }
+
+        if (context.Start.Line > 255)
+            Console.WriteLine($"Error on line {context.Start.Line}: Source file cannot contain more than 255 lines of code. Consider splitting your code into multiple files.");
 
         _sb.Append(Convert.ToString(OpCodes[context.OpCode().GetText().ToUpper()], 2).PadLeft(8, '0') + " ");
 

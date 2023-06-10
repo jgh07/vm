@@ -58,37 +58,44 @@ internal class VirtualMachine
 
     public void Run()
     {
-        byte[][] instructions = bytes.Chunk(10).ToArray();
-
-        List<byte> memoryBytes;
-
-        var memoryChunk = instructions.Where(ins => ins[0] >= 239).First();
-        memoryBytes = instructions[(instructions.ToList().IndexOf(memoryChunk))..].SelectMany(arr => arr).ToArray()[1..].ToList();
-
-        while (memoryBytes.Count > 0)
+        try
         {
-            byte index = memoryBytes[0];
-            byte length = memoryBytes[1];
-            byte[] data = memoryBytes.ToArray()[2..(length + 2)];
-            memory.Add(index, data);
+            byte[][] instructions = bytes.Chunk(10).ToArray();
 
-            memoryBytes.RemoveRange(0, length + 2);
+            List<byte> memoryBytes;
+
+            var memoryChunk = instructions.Where(ins => ins[0] >= 239).First();
+            memoryBytes = instructions[(instructions.ToList().IndexOf(memoryChunk))..].SelectMany(arr => arr).ToArray()[1..].ToList();
+
+            while (memoryBytes.Count > 0)
+            {
+                byte index = memoryBytes[0];
+                byte length = memoryBytes[1];
+                byte[] data = memoryBytes.ToArray()[2..(length + 2)];
+                memory.Add(index, data);
+
+                memoryBytes.RemoveRange(0, length + 2);
+            }
+
+            for (int i = 0; i < instructions.Length; i++)
+            {
+                if (instructions[i][0] == 255) // Memory section
+                    break;
+
+                _instructions.Add(instructions[i][0], instructions[i][1..]);
+            }
+
+            for (int i = 0; i < instructions.Length; i++)
+            {
+                if (instructions[i][0] == 255)
+                    break;
+
+                ExecuteInstruction(instructions[i]);
+            }
         }
-
-        for (int i = 0; i < instructions.Length; i++)
+        catch (Exception)
         {
-            if (instructions[i][0] == 255) // Memory section
-                break;
-
-            _instructions.Add(instructions[i][0], instructions[i][1..]);
-        }
-
-        for (int i = 0; i < instructions.Length; i++)
-        {
-            if (instructions[i][0] == 255)
-                break;
-
-            ExecuteInstruction(instructions[i]);
+            Console.WriteLine("Error: Invalid executable.");
         }
     }
 
