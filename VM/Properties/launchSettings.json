@@ -2,7 +2,7 @@
   "profiles": {
     "VM": {
       "commandName": "Project",
-      "commandLineArgs": "disassemble test.bin dis.asm"
+      "commandLineArgs": "run test.asm"
     }
   }
 }

@@ -56,11 +56,14 @@ internal class VirtualMachine
         this.bytes = bytes;
     }
 
+    private int currentInstructionIndex;
+    byte[][] instructions;
+
     public void Run()
     {
         try
         {
-            byte[][] instructions = bytes.Chunk(10).ToArray();
+            instructions = bytes.Chunk(10).ToArray();
 
             List<byte> memoryBytes;
 
@@ -85,12 +88,12 @@ internal class VirtualMachine
                 _instructions.Add(instructions[i][0], instructions[i][1..]);
             }
 
-            for (int i = 0; i < instructions.Length; i++)
+            for (currentInstructionIndex = 0; currentInstructionIndex < instructions.Length; currentInstructionIndex++)
             {
-                if (instructions[i][0] == 255)
+                if (instructions[currentInstructionIndex][0] == 255)
                     break;
 
-                ExecuteInstruction(instructions[i]);
+                ExecuteInstruction(instructions[currentInstructionIndex]);
             }
         }
         catch (Exception)
@@ -189,21 +192,10 @@ internal class VirtualMachine
 
             case Jmp:
 
-                foreach (var kvp in _instructions)
-                {
-                    if (kvp.Value[0] == 255)
-                        break;
+                if (!instructions.Any(b => b[0] == o1))
+                    break;
 
-                    if (kvp.Key >= o1)
-                    {
-                        byte[] val = kvp.Value;
-
-                        List<byte> inst = new() { kvp.Key };
-                        inst.AddRange(val);
-
-                        ExecuteInstruction(inst.ToArray());
-                    }
-                }
+                currentInstructionIndex = Array.IndexOf(instructions, instructions.Where(b => b[0] == o1).First()) - 1; // decrement by one because for loop will increment it again
 
                 break;
 
@@ -212,21 +204,10 @@ internal class VirtualMachine
                 if ((int)ResolveOperand(t1, o1) != (int)ResolveOperand(t2, o2))
                     break;
 
-                foreach (var kvp in _instructions)
-                {
-                    if (kvp.Value[0] == 255)
-                        break;
+                if (!instructions.Any(b => b[0] == o3))
+                    break;
 
-                    if (kvp.Key >= o3)
-                    {
-                        byte[] val = kvp.Value;
-
-                        List<byte> inst = new() { kvp.Key };
-                        inst.AddRange(val);
-
-                        ExecuteInstruction(inst.ToArray());
-                    }
-                }
+                currentInstructionIndex = Array.IndexOf(instructions, instructions.Where(b => b[0] == o3).First()) - 1;
 
                 break;
 
