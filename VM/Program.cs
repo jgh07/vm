@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using VM;
 using VM.Assembler;
 
@@ -17,12 +18,12 @@ static int Compile(string[] args)
 {
     string inFile;
     string outFile;
-    bool compact = false;
+    bool debug = false;
 
-    if (args.Any(a => a == "-compact"))
+    if (args.Any(a => a == "-debug"))
     {
-        compact = true;
-        args = args.Where(a => a != "-compact").ToArray();
+        debug = true;
+        args = args.Where(a => a != "-debug").ToArray();
     }
 
     if (args.Length == 1)
@@ -50,14 +51,17 @@ static int Compile(string[] args)
 
     Assembler.Compile(File.ReadAllText(inFile), outFile);
 
-    if (compact)
+    if (!debug)
     {
-        string s = File.ReadAllText(outFile)
+        string text = File.ReadAllText(outFile);
+
+        text = text
             .Replace(" ", "")
             .Replace("\r", "")
             .Replace("\n", "");
 
-        File.WriteAllText(outFile, s);
+        byte[] bytes = text.Chunk(8).Select(c => Convert.ToByte(new string(c), 2)).ToArray();
+        File.WriteAllBytes(outFile, bytes);
     }
 
     return 0;
@@ -120,12 +124,7 @@ static int Run(string[] args)
         return -1;
     }
 
-    string binary = File.ReadAllText(inFile)
-        .Replace(" ", "")
-        .Replace("\r", "")
-        .Replace("\n", "");
-
-    byte[] bytes = binary.Chunk(8).Select(c => Convert.ToByte(new string(c), 2)).ToArray();
+    byte[] bytes = File.ReadAllBytes(inFile);
     VirtualMachine vm = new(bytes);
     vm.Run();
 
@@ -137,7 +136,7 @@ static int ShowHelpMessage()
     Console.WriteLine($"Command line arguments:{Environment.NewLine}");
 
     Console.WriteLine($"{"run <Path>",-50}Runs the specified executable.");
-    Console.WriteLine($"{"compile <Path> [OutFile] [-compact]",-50}Compiles the specified assembler source code.");
+    Console.WriteLine($"{"compile <Path> [OutFile] [-debug]",-50}Compiles the specified assembler source code.");
     Console.WriteLine($"{"disassemble <Path> [OutFile]",-50}Disassembles the specified executable.");
     return 0;
 }

@@ -62,7 +62,7 @@ internal class VirtualMachine
 
         List<byte> memoryBytes;
 
-        var memoryChunk = instructions.Where(ins => ins[0] == 255).First();
+        var memoryChunk = instructions.Where(ins => ins[0] >= 239).First();
         memoryBytes = instructions[(instructions.ToList().IndexOf(memoryChunk))..].SelectMany(arr => arr).ToArray()[1..].ToList();
 
         while (memoryBytes.Count > 0)
