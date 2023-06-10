@@ -18,7 +18,7 @@ Include: 'INCLUDE';
 
 String: '"' (~[\\"\r\n\u0085\u2028\u2029] | EscapeSequence)* '"';
 
-EscapeSequence: '\\\\' | '\\r' | '\\n' | '\\"';
+EscapeSequence: '\\\\' | '\\r' | '\\n' | '\\"' | '\\b';
 
 global_include
     : Include String

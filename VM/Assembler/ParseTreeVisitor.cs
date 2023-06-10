@@ -131,7 +131,8 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
                 .Replace("\\\\", "\\")
                 .Replace("\\\"", "\"")
                 .Replace("\\r", "\r")
-                .Replace("\\n", "\n");
+                .Replace("\\n", "\n")
+                .Replace("\\b", "\b");
 
             Memory.Add(memIndex, s);
 
