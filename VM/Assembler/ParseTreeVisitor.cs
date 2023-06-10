@@ -395,7 +395,11 @@ internal class ParseTreeVisitor : asmBaseVisitor<object>
 
     public override object VisitConstant_definition([NotNull] asmParser.Constant_definitionContext context)
     {
-        NamedConstants.Add(context.constant().Identifier().GetText(), context.operand());
+        if (NamedConstants.TryGetValue(context.constant().Identifier().GetText(), out _))
+            Console.WriteLine($"Error on line {context.Start.Line}: Constant '{context.constant().Identifier().GetText()}' was already defined.");
+        else
+            NamedConstants.Add(context.constant().Identifier().GetText(), context.operand());
+
         return null;
     }
 }
