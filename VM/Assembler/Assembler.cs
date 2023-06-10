@@ -75,7 +75,7 @@ public static class Assembler
 
                     // Label
                     case 1:
-                        sb.Append($"Line{instructions[i][0]}{(remainingOperands.Count > 0 ? "," : "")} ");
+                        sb.Append($"Line{operand[1]}{(remainingOperands.Count > 0 ? "," : "")} ");
                         break;
 
                     // Memory
