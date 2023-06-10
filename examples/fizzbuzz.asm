@@ -32,7 +32,7 @@ loop:
 	beq rc, rd, fizz
 
 	int
-	str rb, "\r\n", 1
+	str rb, "\n", 1
 	int
 	swp rb, rg
 
@@ -48,15 +48,15 @@ loop:
 		ret
 
 fizz:
-	str rb, "Fizz\r\n"
+	str rb, "Fizz\n"
 	jmp print
 
 buzz:
-	str rb, "Buzz\r\n"
+	str rb, "Buzz\n"
 	jmp print
 
 fizzbuzz:
-	str rb, "FizzBuzz\r\n"
+	str rb, "FizzBuzz\n"
 	jmp print
 	
 print:
