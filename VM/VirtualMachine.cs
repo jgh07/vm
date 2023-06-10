@@ -81,6 +81,12 @@ internal class VirtualMachine
                 break;
 
             _instructions.Add(instructions[i][0], instructions[i][1..]);
+        }
+
+        for (int i = 0; i < instructions.Length; i++)
+        {
+            if (instructions[i][0] == 255)
+                break;
 
             ExecuteInstruction(instructions[i]);
         }

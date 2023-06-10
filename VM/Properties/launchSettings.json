@@ -2,7 +2,7 @@
   "profiles": {
     "VM": {
       "commandName": "Project",
-      "commandLineArgs": "compile test.asm"
+      "commandLineArgs": "run test2.bin"
     }
   }
 }
