@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Jonas\Source\Repos\jgh07\vm\VM\Assembler\Parser\asm.g4 by ANTLR 4.12.0
+// Generated from C:\Users\Jonas\source\repos\VM\VM\Assembler\Parser\asm.g4 by ANTLR 4.12.0
 
 // Unreachable code detected
 #pragma warning disable 0162

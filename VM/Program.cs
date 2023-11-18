@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -102,7 +103,17 @@ static int Disassemble(string[] args)
 
 static int Run(string[] args)
 {
+    Stopwatch sw = new();
+    sw.Start();
+
     string inFile;
+    bool measure = false;
+
+    if (args.Any(a => a == "-elapsed"))
+    {
+        measure = true;
+        args = args.Where(a => a != "-elapsed").ToArray();
+    }
 
     if (args.Length == 1)
     {
@@ -127,6 +138,16 @@ static int Run(string[] args)
     byte[] bytes = File.ReadAllBytes(inFile);
     VirtualMachine vm = new(bytes);
     vm.Run();
+
+    sw.Stop();
+    if (measure)
+    {
+        double micros = sw.Elapsed.TotalMicroseconds;
+        if (micros < 1000)
+            Console.WriteLine($"Elapsed: {micros} µs");
+        else
+            Console.WriteLine($"Elapsed: {sw.Elapsed.TotalMilliseconds} ms");
+    }
 
     return 0;
 }
